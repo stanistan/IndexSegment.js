@@ -1,0 +1,22 @@
+{
+  "name": "mini-search-index",
+  "version": "0.0.1",
+  "description": "A small search index implementation",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "*",
+    "gulp-babel": "*",
+    "gulp-sourcemaps": "*",
+    "source-map-support": "*"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "search",
+    "index"
+  ],
+  "author": "Stan Rozenraukh",
+  "license": "MIT"
+}
