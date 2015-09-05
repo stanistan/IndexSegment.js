@@ -54,14 +54,14 @@ var IndexSegment = (function () {
     value: function search(data) {
       var _this2 = this;
 
-      return this.tokenize(data).reduce(function (acc, token) {
-        return setIntersection(acc, _this2.data[token] || new Set());
-      }, null);
+      return this.tokenize(data).map(function (token) {
+        return _this2.setForToken(token);
+      }).reduce(setIntersection, null);
     }
   }], [{
     key: "STRING_TOKENIZER",
     value: function STRING_TOKENIZER(data) {
-      return data.toString().split(" ").map(function (s) {
+      return data.toString().toLowerCase().split(/[^a-zA-Z0-9]/).map(function (s) {
         return s.trim();
       });
     }
@@ -76,8 +76,12 @@ var index = new IndexSegment();
 index.put("hey you", 1);
 index.put("hey me", 2);
 
+console.log("stuff is put");
+
 index.search("hey").forEach(function (found) {
   return console.log("found" + found);
 });
 console.log('done');
+
+console.log(IndexSegment.STRING_TOKENIZER("foo-bar"));
 //# sourceMappingURL=IndexSegment.js.map
