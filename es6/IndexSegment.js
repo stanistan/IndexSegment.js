@@ -59,7 +59,9 @@ class IndexSegment {
       .toString()
       .toLowerCase()
       .split(/[^a-zA-Z0-9]/)
-      .map(s => s.trim());
+      .map(s => s.trim())
+      .filter(s => s != "");
+
   }
 
 };

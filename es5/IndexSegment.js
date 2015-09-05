@@ -92,6 +92,8 @@ var IndexSegment = (function () {
     value: function STRING_TOKENIZER(data) {
       return data.toString().toLowerCase().split(/[^a-zA-Z0-9]/).map(function (s) {
         return s.trim();
+      }).filter(function (s) {
+        return s != "";
       });
     }
   }]);

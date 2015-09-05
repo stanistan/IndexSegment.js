@@ -6,6 +6,8 @@ describe('IndexSegment', function() {
 
   it('should have an implicit tokenizer', function() {
     expect(index.tokenize("foo")).toEqual(["foo"]);
+    expect(index.tokenize('foo-bar')).toEqual(['foo', 'bar']);
+    expect(index.tokenize('spaces   - f___934')).toEqual(['spaces', 'f', '934']);
   });
 
   it('should be putable', function() {
