@@ -1,5 +1,5 @@
 {
-  "name": "mini-search-index",
+  "name": "IndexSegment",
   "version": "0.0.1",
   "description": "A small search index implementation",
   "main": "index.js",
@@ -14,7 +14,7 @@
     "source-map-support": "*"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine-node es5/IndexSegment.spec.js"
   },
   "keywords": [
     "search",

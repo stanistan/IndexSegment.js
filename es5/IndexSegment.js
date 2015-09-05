@@ -12,16 +12,16 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var _es6SetPolyfill = require('es6-set/polyfill');
+var _es6Set = require('es6-set');
 
-var _es6SetPolyfill2 = _interopRequireDefault(_es6SetPolyfill);
+var _es6Set2 = _interopRequireDefault(_es6Set);
 
-var _es6MapPolyfill = require('es6-map/polyfill');
+var _es6Map = require('es6-map');
 
-var _es6MapPolyfill2 = _interopRequireDefault(_es6MapPolyfill);
+var _es6Map2 = _interopRequireDefault(_es6Map);
 
 function setIntersection(a, b) {
-  return a ? new _es6SetPolyfill2['default']([].concat(_toConsumableArray(a)).filter(function (x) {
+  return a ? new _es6Set2['default']([].concat(_toConsumableArray(a)).filter(function (x) {
     return !b.has(x);
   })) : b;
 }
@@ -35,29 +35,47 @@ function setValues(s) {
 }
 
 function unique(els) {
-  return setValues(new _es6SetPolyfill2['default'](els));
+  return setValues(new _es6Set2['default'](els));
 };
 
 var IndexSegment = (function () {
+  _createClass(IndexSegment, null, [{
+    key: 'stringTokenizerForPattern',
+    value: function stringTokenizerForPattern(pattern) {
+      return function (string) {
+        return string.toLowerCase().split(pattern).map(function (s) {
+          return s.trim();
+        }).filter(function (s) {
+          return s.length > 0;
+        });
+      };
+    }
+  }, {
+    key: 'stringTokenizer',
+    get: function get() {
+      return IndexSegment.stringTokenizerForPattern(/[^a-zA-Z0-9]/);
+    }
+  }]);
+
   function IndexSegment(tokenizer) {
     _classCallCheck(this, IndexSegment);
 
-    this.data = new _es6MapPolyfill2['default']();
-    this.length = 0;
-    this.size = 0;
-    this.tokenizer = tokenizer || IndexSegment.STRING_TOKENIZER;
+    this.data = new _es6Map2['default']();
+    this.opts = {
+      tokenizer: tokenizer || IndexSegment.stringTokenizer
+    };
   }
 
   _createClass(IndexSegment, [{
     key: 'tokenize',
     value: function tokenize(data) {
-      return unique(this.tokenizer(data));
+      return unique(this.opts.tokenizer(data));
     }
   }, {
     key: 'setForToken',
     value: function setForToken(token) {
       if (!this.data.has(token)) {
-        this.data.set(token, new _es6SetPolyfill2['default']());
+        this.data.set(token, new _es6Set2['default']());
       }
       return this.data.get(token);
     }
@@ -69,9 +87,7 @@ var IndexSegment = (function () {
       tokens.forEach(function (token) {
         _this.setForToken(token).add(id);
       });
-      this.length = this.data.size;
-      this.size = this.data.size;
-      return this;
+      return this.length;
     }
   }, {
     key: 'put',
@@ -87,14 +103,10 @@ var IndexSegment = (function () {
         return _this2.setForToken(token);
       }).reduce(setIntersection, null));
     }
-  }], [{
-    key: 'STRING_TOKENIZER',
-    value: function STRING_TOKENIZER(data) {
-      return data.toString().toLowerCase().split(/[^a-zA-Z0-9]/).map(function (s) {
-        return s.trim();
-      }).filter(function (s) {
-        return s != "";
-      });
+  }, {
+    key: 'length',
+    get: function get() {
+      return this.data.size;
     }
   }]);
 
@@ -104,6 +116,6 @@ var IndexSegment = (function () {
 ;
 
 exports.IndexSegment = IndexSegment;
-exports.Set = _es6SetPolyfill2['default'];
-exports.Map = _es6MapPolyfill2['default'];
+exports.Set = _es6Set2['default'];
+exports.Map = _es6Map2['default'];
 //# sourceMappingURL=IndexSegment.js.map

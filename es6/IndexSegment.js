@@ -1,5 +1,5 @@
-import Set from 'es6-set/polyfill';
-import Map from 'es6-map/polyfill';
+import Set from 'es6-set';
+import Map from 'es6-map';
 
 function setIntersection(a, b) {
   return a ? new Set([...a].filter(x => !b.has(x))) : b;
@@ -17,15 +17,33 @@ function unique(els) {
 
 class IndexSegment {
 
+  static get stringTokenizer() {
+    return IndexSegment.stringTokenizerForPattern(/[^a-zA-Z0-9]/);
+  }
+
+  static stringTokenizerForPattern(pattern) {
+    return (string) => {
+      return string
+        .toLowerCase()
+        .split(pattern)
+        .map(s => s.trim())
+        .filter(s => s.length > 0);
+    };
+  }
+
   constructor(tokenizer) {
     this.data = new Map();
-    this.length = 0;
-    this.size = 0;
-    this.tokenizer = tokenizer || IndexSegment.STRING_TOKENIZER;
+    this.opts = {
+      tokenizer: tokenizer || IndexSegment.stringTokenizer
+    };
+  }
+
+  get length() {
+    return this.data.size;
   }
 
   tokenize(data) {
-    return unique(this.tokenizer(data));
+    return unique(this.opts.tokenizer(data));
   }
 
   setForToken(token) {
@@ -39,9 +57,7 @@ class IndexSegment {
     tokens.forEach(token => {
       this.setForToken(token).add(id);
     });
-    this.length = this.data.size;
-    this.size = this.data.size;
-    return this;
+    return this.length;
   }
 
   put(data, id) {
@@ -52,16 +68,6 @@ class IndexSegment {
     return setValues(this.tokenize(data)
       .map(token => this.setForToken(token))
       .reduce(setIntersection, null));
-  }
-
-  static STRING_TOKENIZER(data) {
-    return data
-      .toString()
-      .toLowerCase()
-      .split(/[^a-zA-Z0-9]/)
-      .map(s => s.trim())
-      .filter(s => s != "");
-
   }
 
 };
