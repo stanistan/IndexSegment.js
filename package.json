@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "description": "A small search index implementation",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "es6-map": "^0.1.1",
+    "es6-set": "^0.1.1"
+  },
   "devDependencies": {
     "gulp": "*",
     "gulp-babel": "*",

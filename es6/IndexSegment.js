@@ -1,31 +1,46 @@
+import Set from 'es6-set/polyfill';
+import Map from 'es6-map/polyfill';
 
-let setIntersection = function(a, b) {
+function setIntersection(a, b) {
   return a ? new Set([...a].filter(x => !b.has(x))) : b;
+}
+
+function setValues(s) {
+  var vals = [];
+  s.forEach(a => vals.push(a));
+  return vals;
+}
+
+function unique(els) {
+  return setValues(new Set(els));
 };
 
 class IndexSegment {
 
   constructor(tokenizer) {
-    this.data = {};
+    this.data = new Map();
+    this.length = 0;
+    this.size = 0;
     this.tokenizer = tokenizer || IndexSegment.STRING_TOKENIZER;
   }
 
   tokenize(data) {
-    return this.tokenizer(data);
+    return unique(this.tokenizer(data));
   }
 
   setForToken(token) {
-    var set = this.data[token];
-    if (!(token in this.data)) {
-      this.data[token] = new Set();
+    if (!this.data.has(token)) {
+      this.data.set(token, new Set());
     }
-    return this.data[token];
+    return this.data.get(token);
   }
 
   putTokens(tokens, id) {
     tokens.forEach(token => {
       this.setForToken(token).add(id);
     });
+    this.length = this.data.size;
+    this.size = this.data.size;
     return this;
   }
 
@@ -34,9 +49,9 @@ class IndexSegment {
   }
 
   search(data) {
-    return this.tokenize(data)
+    return setValues(this.tokenize(data)
       .map(token => this.setForToken(token))
-      .reduce(setIntersection, null);
+      .reduce(setIntersection, null));
   }
 
   static STRING_TOKENIZER(data) {
@@ -49,14 +64,4 @@ class IndexSegment {
 
 };
 
-
-var index = new IndexSegment();
-index.put("hey you", 1);
-index.put("hey me", 2);
-
-console.log("stuff is put");
-
-index.search("hey").forEach(found => console.log("found" + found));
-console.log('done');
-
-console.log(IndexSegment.STRING_TOKENIZER("foo-bar"));
+export { IndexSegment, Set, Map };
