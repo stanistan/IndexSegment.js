@@ -10,7 +10,7 @@ A JS in memory search index.
 // which is pretty trivial and splits strings on
 // non alpha numeric characters.
 //
-var IndexSegment = require('IndexSegment');
+var IndexSegment = require('index-segment');
 
 // create your index
 var index = new IndexSegment();

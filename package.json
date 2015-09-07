@@ -1,5 +1,5 @@
 {
-  "name": "IndexSegment",
+  "name": "index-segment",
   "repository": "https://github.com/stanistan/IndexSegment.js",
   "version": "0.0.1",
   "description": "A small search index implementation",
