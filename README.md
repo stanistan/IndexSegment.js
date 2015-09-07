@@ -2,6 +2,12 @@
 
 A JS in memory search index.
 
+## Installation
+
+```
+$ npm install index-segment
+```
+
 ## Usage
 
 ```js
@@ -28,3 +34,29 @@ index.search("me");
 index.search("hey");
 //> [1, 2]
 ```
+
+#### Providing your own tokenizer.
+
+The tokenizer is used during `put` and `search` methods.
+
+```js
+var index = new IndexSegment(myTokenizer);
+```
+
+## Development
+
+Clone it :)
+
+I'm using es6->es5 via babel, and polyfilling in `Set` and `Map`.
+
+Run `gulp` for the es5 translation.
+
+`npm test` for running the tests.
+
+## License 
+
+MIT
+
+## Author
+
+Stan Rozenraukh
