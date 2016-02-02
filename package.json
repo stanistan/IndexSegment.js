@@ -9,8 +9,9 @@
     "es6-set": "^0.1.1"
   },
   "devDependencies": {
+    "babel-preset-es2015": "^6.3.13",
     "gulp": "*",
-    "gulp-babel": "*",
+    "gulp-babel": "^6.1.2",
     "gulp-sourcemaps": "*",
     "source-map-support": "*"
   },

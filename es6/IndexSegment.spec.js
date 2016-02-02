@@ -13,15 +13,20 @@ describe('IndexSegment', function() {
   it('should be putable', function() {
     index.put("hey you", 1);
     index.put('hey me', 2);
+		index.put('hey you me', 3);
     expect(index.length).toEqual(3);
   });
 
   it('should be searchable', function() {
-    expect(index.search('hey')).toEqual([1, 2]);
-    expect(index.search('you')).toEqual([1]);
-    expect(index.search('me')).toEqual([2]);
+    expect(index.search('hey')).toEqual([1, 2, 3]);
+    expect(index.search('you')).toEqual([1, 3]);
+    expect(index.search('me')).toEqual([2, 3]);
     expect(index.search('nope')).toEqual([]);
   });
+
+	it('should do set intersections', function() {
+		expect(index.search('hey you')).toEqual([1, 3]);
+	});
 
 });
 

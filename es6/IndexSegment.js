@@ -2,7 +2,7 @@ import Set from 'es6-set';
 import Map from 'es6-map';
 
 function setIntersection(a, b) {
-  return a ? new Set([...a].filter(x => !b.has(x))) : b;
+	return a ? new Set(setValues(a).filter(x => b.has(x))) : b;
 }
 
 function setValues(s) {
