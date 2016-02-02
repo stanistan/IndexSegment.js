@@ -1,7 +1,7 @@
 {
   "name": "index-segment",
   "repository": "https://github.com/stanistan/IndexSegment.js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A small search index implementation",
   "main": "index.js",
   "dependencies": {
